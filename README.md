@@ -18,9 +18,25 @@ Extract the archive, then run the PowerShell scripts listed in the **Deployment*
 
 ---
 
+## Download Wordlists (Kali Linux)
+
+Clone the repository and navigate to the wordlists directory:
+
+```bash
+git clone https://github.com/bex2030/AD-Home-Lab.git
+cd AD-Home-Lab/Wordlists
+```
+
+The directory contains:
+
+- `users.txt`
+- `passwords.txt`
+
+---
+
 ## Create a Local Windows Account (No Microsoft Account)
 
-During Windows 10/11 setup, open **Command Prompt** (`Shift +F10`) and run:
+During Windows 10/11 setup, open **Command Prompt** (`Shift + F10`) and run:
 
 ```cmd
 start ms-cxh:localonly
