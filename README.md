@@ -11,7 +11,7 @@
 Run the following PowerShell command:
 
 ```powershell
-Invoke-WebRequest "https://github.com/bex2030/AD-Lab-Home/archive/refs/heads/main.zip" -OutFile "C:\Users\Administrator\AD-Lab-Home.zip"
+Invoke-WebRequest "https://github.com/bex2030/AD-Home-Lab/archive/refs/heads/main.zip" -OutFile "C:\Users\Administrator\AD-Home-Lab.zip"
 ```
 
 Extract the archive, then run the PowerShell scripts listed in the **Deployment** section as **Administrator**.
