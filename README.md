@@ -6,7 +6,7 @@
 
 # Quick Start
 
-## Download the project
+## Download the Project
 
 Run the following PowerShell command:
 
@@ -14,13 +14,43 @@ Run the following PowerShell command:
 Invoke-WebRequest "https://github.com/bex2030/AD-Home-Lab/archive/refs/heads/main.zip" -OutFile "C:\Users\Administrator\AD-Home-Lab.zip"
 ```
 
-Extract the archive, then run the PowerShell scripts listed in the **Deployment** section as **Administrator**.
+After the download is complete:
+
+1. Open `C:\Users\Administrator`.
+2. Double-click **AD-Home-Lab.zip**.
+3. Drag the **AD-Home-Lab** folder to the Desktop.
+4. Run all PowerShell scripts from the extracted folder as **Administrator**.
+
+---
+
+## Deployment
+
+Run the PowerShell scripts in the following order:
+
+```text
+0-Rename-Server.ps1
+01-Install-ADDS.ps1
+02-Create-OUs.ps1
+03-Create-Users.ps1
+04-Create-Groups.ps1
+05-Create-ServiceAccounts.ps1
+06-Register-SPNs.ps1
+07-Add-GroupMembers.ps1
+08-Create-SMB-Shares.ps1
+09-Disable-Defender-Firewall.ps1
+```
+
+> **Note**
+>
+> - `0-Rename-Server.ps1` automatically renames the server and restarts Windows.
+> - `01-Install-ADDS.ps1` installs Active Directory Domain Services, creates the domain, and automatically restarts Windows.
+> - After both automatic restarts, continue running the remaining scripts in numerical order.
 
 ---
 
 ## Download Wordlists (Kali Linux)
 
-Clone the repository and navigate to the wordlists directory:
+Clone the repository and navigate to the Wordlists directory:
 
 ```bash
 git clone https://github.com/bex2030/AD-Home-Lab.git
@@ -45,7 +75,6 @@ start ms-cxh:localonly
 This opens the local account creation wizard and allows Windows to be configured without signing in with a Microsoft account.
 
 ---
-
 # Architecture
 
 ![Architecture](Screenshots/architecture.png)
@@ -54,9 +83,17 @@ This opens the local account creation wizard and allows Windows to be configured
 
 # Overview
 
-This project demonstrates how to deploy a complete Active Directory home lab from scratch using PowerShell automation.
+AD-Home-Lab is a PowerShell-based Active Directory lab that automatically deploys a complete Windows Server environment for learning and practicing Active Directory administration, enumeration, and penetration testing.
 
-The lab simulates a small enterprise network and provides a safe environment to practice Windows Server administration, Active Directory management, and realistic internal penetration testing techniques.
+The lab includes:
+
+- Automated Active Directory deployment
+- Organizational Units (OUs)
+- Users and Groups
+- Service Accounts and SPNs
+- SMB Shares
+- Wordlists for password spraying
+- Attack scenarios such as Password Spraying, AS-REP Roasting, Kerberoasting, LDAP Enumeration, SMB Enumeration, and BloodHound
 
 ---
 
@@ -89,11 +126,14 @@ Domain Admins
 ────────────────────────────
 
 SPN Enumeration
-    │
-    ▼
+        │
+        ▼
 Kerberoasting
-    │
-    ▼
+        │
+        ▼
+Offline Password Cracking
+        │
+        ▼
 iis_server
 
 ────────────────────────────
@@ -108,13 +148,20 @@ osama
 
 # Table of Contents
 
+- [Quick Start](#quick-start)
+  - [Download the Project](#download-the-project)
+  - [Deployment](#deployment)
+  - [Download Wordlists (Kali Linux)](#download-wordlists-kali-linux)
+  - [Create a Local Windows Account (No Microsoft Account)](#create-a-local-windows-account-no-microsoft-account)
+- [Architecture](#architecture)
+- [Overview](#overview)
+- [Attack Flow](#attack-flow)
 - [Features](#features)
 - [Lab Environment](#lab-environment)
 - [Hardware Requirements](#hardware-requirements)
 - [Virtual Machine Resources](#virtual-machine-resources)
 - [Network Configuration](#network-configuration)
 - [Domain Information](#domain-information)
-- [Deployment](#deployment)
 - [Active Directory Structure](#active-directory-structure)
 - [Services](#services)
 - [Lab Scenario](#lab-scenario)
@@ -130,23 +177,23 @@ osama
 
 # Features
 
-- Automated Active Directory deployment
-- PowerShell automation
+- Automated Active Directory Deployment
+- PowerShell Automation
 - Organizational Units (OUs)
 - Users and Security Groups
 - Nested Active Directory Groups
 - Service Accounts
 - Kerberos SPN Configuration
+- Domain-Joined Workstations
 - IIS Web Server
-- Department SMB Shares
+- SMB Shares
 - Credential Exposure Scenario
 - Password Spraying
 - Password Reuse
 - Kerberoasting
 - AS-REP Roasting
 - BloodHound Attack Path Analysis
-- Domain-Joined Workstations
-- Enterprise-like Active Directory Structure
+- Enterprise-Style Active Directory Environment
 
 ---
 
@@ -156,18 +203,18 @@ osama
 |----------|------------------|------|
 | DC-01 | Windows Server 2022 | Domain Controller |
 | WIN10-01 | Windows 10 | Domain Client |
-| Kali | Kali Linux | Attacker Machine |
+| Kali | Kali Linux 2025.x | Attacker Machine |
 
 ---
 
 # Hardware Requirements
 
-| Component | Requirement |
+| Component | Recommended |
 |------------|-------------|
 | CPU | 4 Cores |
 | RAM | 16 GB |
 | Storage | 100 GB |
-| Hypervisor | VMware Workstation |
+| Hypervisor | VMware Workstation Pro |
 | Network | NAT |
 
 ---
@@ -182,15 +229,6 @@ RAM: 4 GB
 Storage: 60 GB
 ```
 
-### Services
-
-- Active Directory Domain Services (AD DS)
-- DNS
-- IIS
-- SMB
-
----
-
 ## WIN10-01
 
 ```text
@@ -199,52 +237,41 @@ RAM: 2 GB
 Storage: 40 GB
 ```
 
-### Role
-
-- Domain Client
-
----
-
 ## Kali Linux
 
 ```text
 CPU: 2 Cores
 RAM: 2 GB
-Storage: 30 GB
+Storage: 40 GB
 ```
 
-### Role
+### Lab Purpose
 
 - Internal Security Assessment
-- Enumeration
+- Active Directory Enumeration
 - Attack Simulation
 
 ---
 
 # Network Configuration
 
-### Hypervisor
+| Setting | Value |
+|---------|-------|
+| Hypervisor | VMware Workstation Pro |
+| Network Mode | NAT |
+| IP Assignment | VMware DHCP |
 
-```text
-VMware Workstation
-```
-
-### Network Mode
-
-```text
-NAT
-```
-
-All machines receive IP addresses automatically through VMware DHCP.
+All virtual machines obtain their IP addresses automatically from VMware DHCP.
 
 ---
 
 # Domain Information
 
-```text
-Domain  : cyber.local
-NetBIOS : CYBER
-```
+| Setting | Value |
+|---------|-------|
+| Domain | `cyber.local` |
+| NetBIOS | `CYBER` |
+
 
 ---
 
@@ -254,19 +281,23 @@ Run the following PowerShell scripts from an elevated PowerShell session on the 
 
 > **Note**
 >
-> Run **00-Rename-Server.ps1** first. The server will automatically restart after the computer name is changed. Once the restart is complete, continue with the remaining scripts.
+> Run **0-Rename-Server.ps1** first. The server will automatically restart after the computer name is changed.
+>
+> After Windows starts again, run **01-Install-ADDS.ps1**. Active Directory will be installed, the domain will be created, and the server will automatically restart again.
+>
+> Once the second restart is complete, continue running the remaining scripts in numerical order.
 
 ```powershell
-00-Rename-Server.ps1
+0-Rename-Server.ps1
 01-Install-ADDS.ps1
 02-Create-OUs.ps1
 03-Create-Users.ps1
 04-Create-Groups.ps1
-05-Add-GroupMembers.ps1
-06-Create-ServiceAccounts.ps1
-07-Install-IIS.ps1
+05-Create-ServiceAccounts.ps1
+06-Register-SPNs.ps1
+07-Add-GroupMembers.ps1
 08-Create-SMB-Shares.ps1
-09-Disable-Security.ps1
+09-Disable-Defender-Firewall.ps1
 ```
 
 ---
@@ -297,20 +328,8 @@ cyber.local
         └── WIN10-01
 ```
 
-## Users
-
-| User | Department | Group | Description |
-|------|------------|-------|-------------|
-| ahmed | Employee | None | Low-privileged domain user |
-| faris | IT Support | GG_IT | IT support technician |
-| mohamed | IT Support | GG_IT | Senior IT support technician |
-| waleed | Human Resources | GG_HR | HR employee |
-| osama | Cyber Security | GG_Cyber | Kerberos pre-authentication disabled |
-| iis_server | Service Account | GG_Management | IIS service account with an HTTP SPN |
-
----
-
 # Services
+
 
 ## Active Directory
 
@@ -322,6 +341,7 @@ cyber.local
 
 ## DNS
 
+- Forward Lookup Zone
 - Domain Name Resolution
 - Client Domain Joining
 
@@ -343,9 +363,7 @@ cyber.local
 
 > **Note**
 >
-> The **IT** share grants read-only access to the **ahmed** account to simulate an internal credential exposure scenario.
->
-> ---
+> The **IT** share grants read-only access to the **ahmed** account and contains a sample file (`support_notes.txt`) to simulate an internal credential exposure scenario used during Active Directory enumeration.
 
 # Lab Scenario
 
@@ -368,7 +386,7 @@ Using the compromised **ahmed** account, the attacker enumerates accessible SMB 
 
 The **IT** share contains an internal support note that was accidentally left behind after a password reset.
 
-The note reveals the temporary password assigned to **faris**.
+The note reveals the temporary password assigned to the **faris** account.
 
 ```text
 \\DC-01\IT
@@ -391,9 +409,7 @@ Password: Aa123456789
 
 ## Phase 3 – Password Spraying
 
-Using the password discovered in the IT support note, the attacker performs a password spraying attack against domain users.
-
-The attack reveals that **faris** is reusing the same password.
+Using the password discovered in the IT support note, the attacker performs a password spraying attack against domain users, identifying multiple accounts using the same password, including **faris**.
 
 ```text
 support_notes.txt
@@ -402,17 +418,25 @@ support_notes.txt
 Password Spraying
         │
         ▼
+Multiple Accounts
+        │
+        ├── ahmed
+        ├── faris
+        ├── mohamed
+        ├── waleed
+        └── osama
+                │
+                ▼
 faris
-Password: Aa123456789
-        │
-        ▼
+                │
+                ▼
 GG_IT
-        │
-        ▼
+                │
+                ▼
 Domain Admins
 ```
 
-Because **GG_IT** is nested inside **Domain Admins**, compromising the **faris** account results in **Domain Administrator** privileges.
+The **faris** account is selected for further exploitation because **GG_IT** is nested inside **Domain Admins**, resulting in **Domain Administrator** privileges.
 
 ### Demonstrates
 
@@ -426,7 +450,8 @@ Because **GG_IT** is nested inside **Domain Admins**, compromising the **faris**
 
 The **iis_server** service account is configured with an HTTP Service Principal Name (SPN).
 
-The attacker enumerates Service Principal Names (SPNs), requests a Kerberos service ticket, and performs offline password cracking to recover the service account credentials.
+The attacker enumerates Service Principal Names (SPNs), requests a Kerberos service ticket for the **iis_server** account, and performs offline password cracking to recover the service account credentials.
+
 
 ```text
 Username: iis_server
@@ -445,7 +470,7 @@ Password: Password123!
 
 The **osama** account has Kerberos pre-authentication disabled.
 
-The attacker performs an AS-REP Roasting attack to obtain an AS-REP hash without prior knowledge of the user's password.
+The attacker performs an AS-REP Roasting attack to obtain an AS-REP hash for the **osama** account without prior knowledge of the user's password.
 
 After cracking the hash offline, the attacker recovers the account credentials.
 
@@ -469,16 +494,17 @@ The lab supports the following attack scenarios:
 - LDAP Enumeration
 - SMB Enumeration
 - SMB Share Discovery
+- User Enumeration
 - Credential Discovery
 - Insecure Credential Storage
-- User Enumeration
 - Password Spraying
 - Password Reuse
+- SPN Enumeration
 - Kerberoasting
 - AS-REP Roasting
-- BloodHound Analysis
-- SharpHound Data Collection
 - PowerView Enumeration
+- SharpHound Data Collection
+- BloodHound Analysis
 - SMB Permission Testing
 - Nested Group Privilege Escalation
 
@@ -506,59 +532,56 @@ The lab also demonstrates the following defensive concepts:
 
 ## Infrastructure
 
-- VMware Workstation
+- VMware Workstation Pro
 - Windows Server 2022
 - Windows 10
 - Kali Linux
+- PowerShell
 
 ## Enumeration
 
-- Nmap
-- enum4linux
-- smbclient
-- rpcclient
-- CrackMapExec
-- Kerbrute
+- Nmap — Network Discovery & Service Enumeration
+- enum4linux — SMB & LDAP Enumeration
+- smbclient — SMB Share Enumeration
+- rpcclient — RPC Enumeration
+- Kerbrute — Kerberos User Enumeration
 
 ## Active Directory
 
-- BloodHound
-- SharpHound
-- PowerView
-- Impacket
+- BloodHound — Attack Path Analysis
+- PowerView — Active Directory Enumeration
+- Rubeus — Kerberos Ticket Operations
+- Mimikatz — Credential Extraction & Kerberos Attacks
 
 ## Offensive Security
 
-- Evil-WinRM
-- Responder
-- Inveigh
-- Burp Suite
-
+- CrackMapExec — Password Spraying & Lateral Movement
+- Impacket — Kerberos, SMB & Remote Execution
+- Evil-WinRM — Remote PowerShell Access
+- John the Ripper — Offline Password Cracking
+- Hashcat — GPU-Accelerated Password Cracking
+  
 ---
 
 # Learning Outcomes
 
 After completing this project, you will gain hands-on experience with:
 
-- Deploying an Active Directory environment using PowerShell
+- Deploying Active Directory using PowerShell
 - Windows Server Administration
 - Active Directory Management
 - Organizational Units (OUs)
 - Security Groups
-- Nested Group Administration
-- Windows Authentication
-- Kerberos Authentication
 - SMB Configuration
+- Kerberos Authentication
 - Active Directory Enumeration
-- SMB Enumeration
 - Credential Discovery
 - Password Spraying
 - Password Reuse Assessment
 - Kerberoasting
 - AS-REP Roasting
 - BloodHound Analysis
-- Privilege Escalation Analysis
-- Enterprise Environment Simulation
+- Privilege Escalation Techniques
 
 ---
 
@@ -610,7 +633,6 @@ After completing this project, you will gain hands-on experience with:
 
 ![Domain Join](Screenshots/domainjoin.png)
 
----
 
 ---
 
