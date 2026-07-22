@@ -77,7 +77,7 @@ This opens the local account creation wizard and allows Windows to be configured
 ---
 # Architecture
 
-![Architecture](Screenshots/لقطة شاشة 2026-07-22 085627.png)
+![Architecture](Screenshots/kali-poto.jpg)
 
 ---
 
