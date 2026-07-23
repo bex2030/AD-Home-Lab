@@ -8,7 +8,11 @@
 
 ## Download the Project
 
+> **Important:** Run the following steps directly on the Windows Server machine as Administrator.  
+> This lab is designed to be deployed on Windows Server to install and configure Active Directory Domain Services.
+
 Run the following PowerShell command:
+
 
 ```powershell
 Invoke-WebRequest "https://github.com/bex2030/AD-Home-Lab/archive/refs/heads/main.zip" -OutFile "C:\Users\Administrator\AD-Home-Lab.zip"
