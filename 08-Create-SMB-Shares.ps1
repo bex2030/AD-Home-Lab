@@ -49,20 +49,12 @@ foreach ($Folder in $Folders) {
 IT Support Notes
 ================
 
-User:
-faris
+User: faris
+Issue: Password reset completed successfully.
+Temporary Password: Aa123456789
+Status: Waiting for user confirmation.
 
-Issue:
-Password reset completed successfully.
-
-Temporary Password:
-Aa123456789
-
-Status:
-Waiting for user confirmation.
-
-TODO:
-Delete this file after the user confirms login.
+TO DO: Delete this file after the user confirms login.
 
 Created by:
 IT Support Team
