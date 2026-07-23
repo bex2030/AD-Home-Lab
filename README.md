@@ -63,6 +63,7 @@ cd AD-Home-Lab/Wordlists
 
 The directory contains:
 
+- `default_credentials.txt`
 - `users.txt`
 - `passwords.txt`
 
@@ -70,6 +71,7 @@ The directory contains:
 
 These wordlists are custom-built for this lab and intended to be used from the Kali machine during the enumeration and password spraying phases:
 
+- `default_credentials.txt` — contains the default username and password used to initially authenticate to the domain (e.g. RDP/WinRM login), representing the attacker's starting point of access in the lab scenario.
 - `users.txt` — matches the domain usernames created during deployment (ahmed, faris, mohamed, waleed, osama), used as a target list for username enumeration and password spraying.
 - `passwords.txt` — a small, lab-specific wordlist containing the weak passwords assigned to lab accounts, simulating a realistic password spraying attack against users who reused a common password.
 
