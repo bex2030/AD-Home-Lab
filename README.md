@@ -66,6 +66,17 @@ The directory contains:
 - `users.txt`
 - `passwords.txt`
 
+### Wordlist Details
+
+These wordlists are custom-built for this lab and intended to be used from the Kali machine during the enumeration and password spraying phases:
+
+- `users.txt` — matches the domain usernames created during deployment (ahmed, faris, mohamed, waleed, osama), used as a target list for username enumeration and password spraying.
+- `passwords.txt` — a small, lab-specific wordlist containing the weak passwords assigned to lab accounts, simulating a realistic password spraying attack against users who reused a common password.
+
+> **Note**
+>
+> These wordlists are intentionally small and scenario-specific rather than general-purpose lists like `rockyou.txt`. In a real-world engagement, the attacker would not have this list in advance — it is provided here purely to make the lab reproducible for learning purposes.
+
 ---
 
 ## Create a Local Windows Account (No Microsoft Account)
