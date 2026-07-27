@@ -17,7 +17,9 @@ Run the following PowerShell command:
 ```powershell
 Invoke-WebRequest "https://github.com/bex2030/AD-Home-Lab/archive/refs/heads/main.zip" -OutFile "C:\Users\Administrator\AD-Home-Lab.zip"
 ```
-
+```Download Rockyou List
+wget https://github.com/brannondorsey/naive-hashcat/releases/download/data/rockyou.txt
+```
 After the download is complete:
 
 1. Open `C:\Users\Administrator`.
