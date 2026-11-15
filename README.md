@@ -1,8 +1,6 @@
 # AD-Home-Lab
 
 
-# Quick Start
-
 ## Download the Project
 
 > **Important:** Run the following steps directly on the Windows Server machine as Administrator.  
