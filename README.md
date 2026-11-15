@@ -1,11 +1,5 @@
 # AD-Home-Lab
 
-Invoke-WebRequest -Uri https://packages.wazuh.com/4.x/windows/wazuh-agent-4.14.7-1.msi -OutFile $env:tmp\wazuh-agent; msiexec.exe /i $env:tmp\wazuh-agent /q WAZUH_MANAGER='192.168.121.151' WAZUH_AGENT_NAME='win10' 
-
-
-> Complete Active Directory Home Lab built from scratch using PowerShell automation to simulate a real enterprise environment for Active Directory administration, security assessment, and penetration testing.
-
----
 
 # Quick Start
 
