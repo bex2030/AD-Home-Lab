@@ -1,5 +1,5 @@
-# AD-Home-Lab
 
+# AD-Home-Lab
 
 ## Download the Project
 
@@ -8,19 +8,16 @@
 
 Run the following PowerShell command:
 
-
 ```powershell
-Invoke-WebRequest "https://github.com/bex2030/AD-Home-Lab/archive/refs/heads/main.zip" -OutFile "C:\Users\Administrator\AD-Home-Lab.zip"
+Invoke-WebRequest "https://github.com/bex2030/AD-Home-Lab/archive/refs/heads/main.zip" -OutFile "$env:USERPROFILE\AD-Home-Lab.zip"
 ```
-```Download Rockyou List
-wget https://github.com/brannondorsey/naive-hashcat/releases/download/data/rockyou.txt
-```
+
 After the download is complete:
 
-1. Open `C:\Users\Administrator`.
-2. Double-click **AD-Home-Lab.zip**.
-3. Drag the **AD-Home-Lab** folder to the Desktop.
-4. Run all PowerShell scripts from the extracted folder as **Administrator**.
+1. Open your user profile folder.
+2. Extract `AD-Home-Lab.zip`.
+3. Open the extracted `AD-Home-Lab` folder.
+4. Run the PowerShell deployment scripts as Administrator.
 
 ---
 
@@ -41,7 +38,7 @@ Run the PowerShell scripts in the following order:
 09-Disable-Defender-Firewall.ps1
 ```
 
-> **Note**
+> **Note:**
 >
 > - `0-Rename-Server.ps1` automatically renames the server and restarts Windows.
 > - `01-Install-ADDS.ps1` installs Active Directory Domain Services, creates the domain, and automatically restarts Windows.
@@ -49,13 +46,13 @@ Run the PowerShell scripts in the following order:
 
 ---
 
-## Download Wordlists (Kali Linux)
+## Download Wordlists (Windows)
 
-Clone the repository and navigate to the Wordlists directory:
+Clone the repository using Git:
 
-```bash
+```powershell
 git clone https://github.com/bex2030/AD-Home-Lab.git
-cd AD-Home-Lab/Wordlists
+cd AD-Home-Lab\Wordlists
 ```
 
 The directory contains:
@@ -66,15 +63,15 @@ The directory contains:
 
 ### Wordlist Details
 
-These wordlists are custom-built for this lab and intended to be used from the Kali machine during the enumeration and password spraying phases:
+These wordlists are custom-built for this lab and intended to be used from the Windows attack machine during the enumeration and password spraying phases.
 
-- `default_credentials.txt` — contains the default username and password used to initially authenticate to the domain (e.g. RDP/WinRM login), representing the attacker's starting point of access in the lab scenario.
-- `users.txt` — matches the domain usernames created during deployment (ahmed, faris, mohamed, waleed, osama), used as a target list for username enumeration and password spraying.
-- `passwords.txt` — a small, lab-specific wordlist containing the weak passwords assigned to lab accounts, simulating a realistic password spraying attack against users who reused a common password.
+- `default_credentials.txt` — contains the default username and password used to initially authenticate to the domain, representing the attacker's starting point of access in the lab scenario.
+- `users.txt` — matches the domain usernames created during deployment (`ahmed`, `faris`, `mohamed`, `waleed`, `osama`), used as a target list for username enumeration and password spraying.
+- `passwords.txt` — contains a small, lab-specific list of weak passwords assigned to lab accounts, simulating password reuse and weak password practices.
 
-> **Note**
+> **Note:**
 >
-> These wordlists are intentionally small and scenario-specific rather than general-purpose lists like `rockyou.txt`. In a real-world engagement, the attacker would not have this list in advance — it is provided here purely to make the lab reproducible for learning purposes.
+> These wordlists are intentionally small and scenario-specific rather than general-purpose lists like `rockyou.txt`. They are provided to make the lab reproducible for learning purposes.
 
 ---
 
@@ -89,15 +86,20 @@ start ms-cxh:localonly
 This opens the local account creation wizard and allows Windows to be configured without signing in with a Microsoft account.
 
 ---
+
 # Architecture
 
 ![Architecture](Screenshots/AD-Architecture.png)
 
 ---
 
+
+
 # Overview
 
-AD-Home-Lab is a PowerShell-based Active Directory lab that automatically deploys a complete Windows Server environment for learning and practicing Active Directory administration, enumeration, and penetration testing.
+AD-Home-Lab is a PowerShell-based Active Directory lab that automatically deploys a Windows Server environment for learning and practicing Active Directory administration, enumeration, and penetration testing.
+
+The lab uses a Windows-based attack machine to perform Active Directory security assessments and simulate common attack scenarios in a controlled environment.
 
 The lab includes:
 
@@ -106,8 +108,9 @@ The lab includes:
 - Users and Groups
 - Service Accounts and SPNs
 - SMB Shares
-- Wordlists for password spraying
-- Attack scenarios such as Password Spraying, AS-REP Roasting, Kerberoasting, LDAP Enumeration, SMB Enumeration, and BloodHound
+- Custom wordlists for password spraying
+- Windows-based penetration testing tools
+- Attack scenarios such as Password Spraying, AS-REP Roasting, Kerberoasting, LDAP Enumeration, SMB Enumeration, and BloodHound analysis
 
 ---
 
@@ -115,46 +118,46 @@ The lab includes:
 
 ```text
 ahmed
-    │
-    ▼
+   |
+   v
 SMB Enumeration
-    │
-    ▼
+   |
+   v
 support_notes.txt
-    │
-    ▼
+   |
+   v
 Credential Discovery
-    │
-    ▼
+   |
+   v
 Password Spraying
-    │
-    ▼
+   |
+   v
 faris
-    │
-    ▼
+   |
+   v
 GG_IT
-    │
-    ▼
+   |
+   v
 Domain Admins
 
-────────────────────────────
+----------------------------
 
 SPN Enumeration
-        │
-        ▼
+       |
+       v
 Kerberoasting
-        │
-        ▼
+       |
+       v
 Offline Password Cracking
-        │
-        ▼
+       |
+       v
 iis_server
 
-────────────────────────────
+----------------------------
 
 AS-REP Roasting
-    │
-    ▼
+   |
+   v
 osama
 ```
 
@@ -165,7 +168,7 @@ osama
 - [Quick Start](#quick-start)
   - [Download the Project](#download-the-project)
   - [Deployment](#deployment)
-  - [Download Wordlists (Kali Linux)](#download-wordlists-kali-linux)
+  - [Download Wordlists (Windows)](#download-wordlists-windows)
   - [Create a Local Windows Account (No Microsoft Account)](#create-a-local-windows-account-no-microsoft-account)
 - [Architecture](#architecture)
 - [Overview](#overview)
@@ -199,15 +202,21 @@ osama
 - Service Accounts
 - Kerberos SPN Configuration
 - Domain-Joined Workstations
+- Windows-Based Attack Machine
 - IIS Web Server
 - SMB Shares
 - Credential Exposure Scenario
 - Password Spraying
 - Password Reuse
+- LDAP Enumeration
+- SMB Enumeration
 - Kerberoasting
 - AS-REP Roasting
 - BloodHound Attack Path Analysis
 - Enterprise-Style Active Directory Environment
+
+---
+
 
 ---
 
@@ -217,7 +226,7 @@ osama
 |----------|------------------|------|
 | DC-01 | Windows Server 2022 | Domain Controller |
 | WIN10-01 | Windows 10 | Domain Client |
-| Kali | Kali Linux 2025.x | Attacker Machine |
+| WIN11-ATTACKER | Windows 11 | Attack Machine |
 
 ---
 
@@ -251,19 +260,21 @@ RAM: 2 GB
 Storage: 40 GB
 ```
 
-## Kali Linux
+## WIN11-ATTACKER
 
 ```text
 CPU: 2 Cores
-RAM: 2 GB
-Storage: 40 GB
+RAM: 4 GB
+Storage: 60 GB
 ```
 
 ### Lab Purpose
 
 - Internal Security Assessment
 - Active Directory Enumeration
-- Attack Simulation
+- Windows-Based Attack Simulation
+- Active Directory Penetration Testing
+- Privilege Escalation Analysis
 
 ---
 
@@ -277,6 +288,12 @@ Storage: 40 GB
 
 All virtual machines obtain their IP addresses automatically from VMware DHCP.
 
+> **Important:**
+>
+> The `WIN11-ATTACKER` machine operates independently and is not joined to the `cyber.local` domain.
+>
+> All machines must be connected to the same virtual network to communicate with each other.
+
 ---
 
 # Domain Information
@@ -285,7 +302,6 @@ All virtual machines obtain their IP addresses automatically from VMware DHCP.
 |---------|-------|
 | Domain | `cyber.local` |
 | NetBIOS | `CYBER` |
-
 
 ---
 
@@ -300,6 +316,8 @@ Run the following PowerShell scripts from an elevated PowerShell session on the 
 > After Windows starts again, run **01-Install-ADDS.ps1**. Active Directory will be installed, the domain will be created, and the server will automatically restart again.
 >
 > Once the second restart is complete, continue running the remaining scripts in numerical order.
+
+---
 
 ```powershell
 0-Rename-Server.ps1
@@ -342,8 +360,13 @@ cyber.local
         └── WIN10-01
 ```
 
-# Services
+> **Note:**
+>
+> `WIN11-ATTACKER` is a standalone Windows machine and is not part of the Active Directory domain. It is used to perform enumeration and penetration testing against the `cyber.local` environment.
 
+---
+
+# Services
 
 ## Active Directory
 
@@ -358,6 +381,7 @@ cyber.local
 - Forward Lookup Zone
 - Domain Name Resolution
 - Client Domain Joining
+- Active Directory DNS Resolution
 
 ## IIS
 
@@ -365,6 +389,7 @@ cyber.local
 |---------|-------|
 | Website | CyberLab |
 | Port | 80 |
+| Service Account | `CYBER\iis_server` |
 
 ## SMB File Shares
 
@@ -379,9 +404,16 @@ cyber.local
 >
 > The **IT** share grants read-only access to the **ahmed** account and contains a sample file (`support_notes.txt`) to simulate an internal credential exposure scenario used during Active Directory enumeration.
 
+---
+
 # Lab Scenario
 
-This lab simulates a realistic internal Active Directory security assessment from the perspective of an authenticated domain user.
+This lab simulates an internal Active Directory security assessment using a standalone Windows attack machine.
+
+The attacker uses `WIN11-ATTACKER` to interact with the `cyber.local` environment and perform security assessments against Active Directory, domain accounts, authentication services, and SMB resources.
+
+The lab demonstrates common Active Directory attack techniques, including credential discovery, password spraying, Kerberoasting, AS-REP Roasting, LDAP enumeration, and privilege escalation through misconfigured group memberships.
+
 
 ## Phase 1 – Initial Access
 
@@ -392,11 +424,13 @@ Username: ahmed
 Password: Aa123456789
 ```
 
+The attacker uses a standalone Windows 11 machine (`WIN11-ATTACKER`) to connect to and assess the Active Directory environment.
+
 ---
 
 ## Phase 2 – SMB Enumeration
 
-Using the compromised **ahmed** account, the attacker enumerates accessible SMB shares.
+Using the compromised **ahmed** account, the attacker enumerates accessible SMB shares from the Windows attack machine.
 
 The **IT** share contains an internal support note that was accidentally left behind after a password reset.
 
@@ -404,11 +438,11 @@ The note reveals the temporary password assigned to the **faris** account.
 
 ```text
 \\DC-01\IT
-        │
-        ▼
+        |
+        v
 support_notes.txt
-        │
-        ▼
+        |
+        v
 Username: faris
 Password: Aa123456789
 ```
@@ -423,39 +457,37 @@ Password: Aa123456789
 
 ## Phase 3 – Password Spraying
 
-Using the password discovered in the IT support note, the attacker performs a password spraying attack against domain users, identifying multiple accounts using the same password, including **faris**.
+Using the password discovered in the IT support note, the attacker performs password spraying against the domain user accounts.
+
+The assessment identifies password reuse between **ahmed** and **faris**, as both accounts share the same password.
 
 ```text
 support_notes.txt
-        │
-        ▼
+        |
+        v
 Password Spraying
-        │
-        ▼
-Multiple Accounts
-        │
-        ├── ahmed
-        ├── faris
-        ├── mohamed
-        ├── waleed
-        └── osama
-                │
-                ▼
-faris
-                │
-                ▼
-GG_IT
-                │
-                ▼
-Domain Admins
+        |
+        v
+Credential Validation
+        |
+        +---- ahmed
+        |
+        +---- faris
+                 |
+                 v
+               GG_IT
+                 |
+                 v
+           Domain Admins
 ```
 
-The **faris** account is selected for further exploitation because **GG_IT** is nested inside **Domain Admins**, resulting in **Domain Administrator** privileges.
+The **faris** account is selected for further exploitation because **GG_IT** is nested inside **Domain Admins**, resulting in effective **Domain Administrator** privileges.
 
 ### Demonstrates
 
 - Password Spraying
 - Password Reuse
+- Credential Validation
 - Nested Group Privilege Escalation
 
 ---
@@ -464,8 +496,7 @@ The **faris** account is selected for further exploitation because **GG_IT** is 
 
 The **iis_server** service account is configured with an HTTP Service Principal Name (SPN).
 
-The attacker enumerates Service Principal Names (SPNs), requests a Kerberos service ticket for the **iis_server** account, and performs offline password cracking to recover the service account credentials.
-
+From the Windows attack machine, the attacker enumerates Service Principal Names (SPNs), requests a Kerberos service ticket for the **iis_server** account, and performs offline password cracking to recover the service account credentials.
 
 ```text
 Username: iis_server
@@ -484,7 +515,7 @@ Password: Password123!
 
 The **osama** account has Kerberos pre-authentication disabled.
 
-The attacker performs an AS-REP Roasting attack to obtain an AS-REP hash for the **osama** account without prior knowledge of the user's password.
+From the Windows attack machine, the attacker performs an AS-REP Roasting attack to obtain an AS-REP hash for the **osama** account without prior knowledge of the user's password.
 
 After cracking the hash offline, the attacker recovers the account credentials.
 
@@ -496,13 +527,15 @@ Password: Pass0rd1
 ### Demonstrates
 
 - AS-REP Roasting
+- Kerberos Enumeration
 - Offline Password Cracking
 
 ---
 
+
 # Attack Scenarios
 
-The lab supports the following attack scenarios:
+The lab supports the following attack scenarios using a standalone Windows attack machine:
 
 - Active Directory Enumeration
 - LDAP Enumeration
@@ -549,32 +582,37 @@ The lab also demonstrates the following defensive concepts:
 - VMware Workstation Pro
 - Windows Server 2022
 - Windows 10
-- Kali Linux
+- Windows 11
 - PowerShell
 
-## Enumeration
+## Windows-Based Enumeration
 
-- Nmap — Network Discovery & Service Enumeration
-- enum4linux — SMB & LDAP Enumeration
-- smbclient — SMB Share Enumeration
-- rpcclient — RPC Enumeration
-- Kerbrute — Kerberos User Enumeration
-
-## Active Directory
-
-- BloodHound — Attack Path Analysis
+- PowerShell — System Administration & Active Directory Enumeration
+- Active Directory PowerShell Module — User, Group & Domain Enumeration
 - PowerView — Active Directory Enumeration
+- Nmap — Network Discovery & Service Enumeration
+- Windows SMB PowerShell Cmdlets — SMB Share Enumeration
+- SharpHound — Active Directory Data Collection
+
+## Active Directory & Kerberos
+
+- BloodHound — Active Directory Attack Path Analysis
+- PowerView — Active Directory Enumeration
+- SharpHound — BloodHound Data Collection
 - Rubeus — Kerberos Ticket Operations
 - Mimikatz — Credential Extraction & Kerberos Attacks
 
 ## Offensive Security
 
-- CrackMapExec — Password Spraying & Lateral Movement
 - Impacket — Kerberos, SMB & Remote Execution
-- Evil-WinRM — Remote PowerShell Access
+- NetExec — Network Enumeration & Authentication Testing
+- Hashcat — Password Hash Cracking
 - John the Ripper — Offline Password Cracking
-- Hashcat — GPU-Accelerated Password Cracking
-  
+
+> **Note:**
+>
+> The primary attack environment is Windows 11. Some tools may require additional dependencies, such as Python or other runtime components, before they can be used on Windows.
+
 ---
 
 # Learning Outcomes
@@ -588,14 +626,18 @@ After completing this project, you will gain hands-on experience with:
 - Security Groups
 - SMB Configuration
 - Kerberos Authentication
+- Windows-Based Penetration Testing
 - Active Directory Enumeration
+- LDAP Enumeration
+- SMB Enumeration
 - Credential Discovery
 - Password Spraying
 - Password Reuse Assessment
 - Kerberoasting
 - AS-REP Roasting
-- BloodHound Analysis
+- BloodHound Data Collection & Analysis
 - Privilege Escalation Techniques
+- Active Directory Attack Path Analysis
 
 ---
 
@@ -647,6 +689,9 @@ After completing this project, you will gain hands-on experience with:
 
 ![Domain Join](Screenshots/domainjoin.png)
 
+## Windows Attack Machine
+
+![Windows Attack Machine](Screenshots/windows-attacker.png)
 
 ---
 
