@@ -9,7 +9,7 @@
 Run the following PowerShell command:
 
 ```powershell
-Invoke-WebRequest "https://github.com/bex2030/AD-Home-Lab/archive/refs/heads/main.zip" -OutFile "$env:USERPROFILE\AD-Home-Lab.zip"
+Invoke-WebRequest "https://github.com/bex2030/AD-Home-Lab/archive/refs/heads/main.zip" -OutFile "$env:USERPROFILE\Desktop\AD-Home-Lab.zip"
 ```
 
 After the download is complete:
